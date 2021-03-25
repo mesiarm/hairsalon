@@ -14,6 +14,6 @@ class PageController extends AbstractController
      */
     public function homepage(): Response
     {
-        return $this->json(['test' => 'ok']);
+        return $this->render('pages/index.html.twig');
     }
 }
