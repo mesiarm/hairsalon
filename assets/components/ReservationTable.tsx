@@ -15,7 +15,7 @@ type Interval = {
 
 type Reservation = {
     id: number,
-    interval: Interval,
+    timeInterval: Interval,
     day: Day,
 }
 type ReservationTableState = {
@@ -110,7 +110,7 @@ class ReservationTable extends React.Component<ReservationTableProps, Reservatio
                                 {S.intervals.map(interval => {
                                         const reserved = S.reservations.length > 0
                                             ? S.reservations.some(r => {
-                                                    return r.interval.id === interval.id &&
+                                                    return r.timeInterval.id === interval.id &&
                                                         r.day.id === day.id;
                                                 }
                                             )
