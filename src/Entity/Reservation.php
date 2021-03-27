@@ -29,6 +29,21 @@ class Reservation
      */
     private $time_interval;
 
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $fullName;
+
+    /**
+     * @ORM\Column(type="string", length=15)
+     */
+    private $phone;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $note;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -54,6 +69,42 @@ class Reservation
     public function setTimeInterval(?Interval $time_interval): self
     {
         $this->time_interval = $time_interval;
+
+        return $this;
+    }
+
+    public function getFullName(): ?string
+    {
+        return $this->fullName;
+    }
+
+    public function setFullName(string $fullName): self
+    {
+        $this->fullName = $fullName;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    public function getNote(): ?string
+    {
+        return $this->note;
+    }
+
+    public function setNote(?string $note): self
+    {
+        $this->note = $note;
 
         return $this;
     }
