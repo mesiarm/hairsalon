@@ -1,6 +1,7 @@
 import * as React from "react";
 import {MDBTable, MDBTableBody, MDBTableHead} from "mdbreact";
 import AddReservationForm from "./AddReservationForm";
+import {getFromLocalStorage} from "../utils";
 
 type ReservationTableProps = {};
 
@@ -72,12 +73,31 @@ class ReservationTable extends React.Component<ReservationTableProps, Reservatio
                                     {S.intervals.map(interval => {
                                             const reserved = S.reservations.length > 0
                                                 ? S.reservations.some(r => {
-                                                        return r.timeInterval.id === interval.id && r.day.id === day.id;
+                                                        return r.timeInterval.id == interval.id && r.day.id == day.id;
                                                     }
                                                 )
                                                 : false;
-                                            const color = reserved ? 'danger-color' : 'success-color';
-                                            const text = reserved ? 'Obsadené' : 'Voľné';
+                                            const yourReservations = getFromLocalStorage('reservations');
+                                            const youReserved = yourReservations.some((r: LocalReservation) => {
+                                                return r.interval_id == interval.id && r.day_id == day.id;
+                                            });
+                                            let color: string;
+                                            if (youReserved) {
+                                                color = 'warning-color'
+                                            } else if (reserved) {
+                                                color = 'danger-color';
+                                            } else {
+                                                color = 'success-color'
+                                            }
+                                            let text: string;
+                                            if (youReserved) {
+
+                                                text = 'Rezervované Vami';
+                                            } else if (reserved) {
+                                                text = 'Obsadené';
+                                            } else {
+                                                text = 'Voľné';
+                                            }
                                             return <td
                                                 style={!reserved ? {cursor: 'pointer'} : {}}
                                                 key={interval.id}
@@ -118,7 +138,8 @@ class ReservationTable extends React.Component<ReservationTableProps, Reservatio
                                 this.setState({
                                     reservations: data,
                                     addModalOpen: false,
-
+                                    selectedInterval: null,
+                                    selectedDay: null,
                                 })
                             })
                     }}

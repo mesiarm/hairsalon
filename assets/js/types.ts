@@ -14,3 +14,8 @@ type Reservation = {
     timeInterval: Interval,
     day: Day,
 }
+
+type LocalReservation = {
+    interval_id: number;
+    day_id: number;
+}

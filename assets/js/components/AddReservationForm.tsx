@@ -1,5 +1,6 @@
 import {MDBBtn, MDBInput, MDBModal, MDBModalBody, MDBModalHeader} from "mdbreact";
 import * as React from "react";
+import {storeInLocalStorage} from '../utils';
 
 type AddReservationFormProps = {
     open: boolean,
@@ -28,12 +29,17 @@ class AddReservationForm extends React.Component<AddReservationFormProps, AddRes
     submitHandler(event: any) {
         event.preventDefault();
         const {props: P, state: S} = this;
-        var formData = new FormData();
+        const formData = new FormData();
         formData.append('name', S.fullName);
         formData.append('phone', S.phone);
         formData.append('note', S.note);
         formData.append('interval_id', P.interval ? P.interval.id.toString() : '')
         formData.append('day_id', P.day ? P.day.id.toString() : '')
+        const localReservation: LocalReservation = {
+            'interval_id': P.interval ? P.interval.id : -1,
+            'day_id': P.day ? P.day.id : -1,
+        };
+        storeInLocalStorage('reservations', localReservation);
         fetch('/reservations', {
             method: 'POST',
             body: formData,
